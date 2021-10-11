@@ -97,7 +97,7 @@ namespace _ThrowBattle
             else
                 UsePortraitLayout();
             //scoreAnimator = score.GetComponent<Animator>();
-            dailyRewardAnimator = dailyRewardBtn.GetComponent<Animator>();
+            //dailyRewardAnimator = dailyRewardBtn.GetComponent<Animator>();
 
             Reset();
             ShowStartUI();
@@ -225,7 +225,7 @@ namespace _ThrowBattle
             score.gameObject.SetActive(false);
             newBestScore.SetActive(false);
             menuButtons.SetActive(false);
-            dailyRewardBtn.SetActive(false);
+            //dailyRewardBtn.SetActive(false);
 
             // Enable or disable premium stuff
             //leaderboardBtn.SetActive(enablePremium);
@@ -235,7 +235,7 @@ namespace _ThrowBattle
 
             // These premium feature buttons are hidden by default
             // and shown when certain criteria are met (e.g. rewarded ad is loaded)
-            watchRewardedAdBtn.gameObject.SetActive(false);
+            //watchRewardedAdBtn.gameObject.SetActive(false);
         }
 
         public void StartGame()
@@ -312,7 +312,7 @@ namespace _ThrowBattle
             playBirdShootBtn.SetActive(!isShow);
             quickMatchBtn.SetActive(!isShow);
             matchMakerBtn.SetActive(!isShow);
-            backBtn.SetActive(true);
+            //backBtn.SetActive(true);
         }
 
         public void BackAction()
@@ -336,7 +336,7 @@ namespace _ThrowBattle
             restartBtn.SetActive(false);
             homeBtn.SetActive(false);
             menuButtons.SetActive(true);
-            backBtn.SetActive(false);
+            //backBtn.SetActive(false);
             shareBtn.SetActive(false);
 
             // If first launch: show "WatchForCoins" and "DailyReward" buttons if the conditions are met
@@ -366,8 +366,8 @@ namespace _ThrowBattle
             homeBtn.SetActive(false);
             restartBtn.SetActive(false);
             menuButtons.SetActive(false);
-            dailyRewardBtn.SetActive(false);
-            watchRewardedAdBtn.SetActive(false);
+            //dailyRewardBtn.SetActive(false);
+            //watchRewardedAdBtn.SetActive(false);
         }
 
         public void ShowPauseUI(bool isShow)
