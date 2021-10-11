@@ -59,12 +59,6 @@ namespace _ThrowBattle
         public GameObject removeAdsBtn;
         public GameObject restorePurchaseBtn;
 
-        [Header("In-App Purchase Store")]
-        public GameObject storeUI;
-
-        [Header("Sharing-Specific")]
-        public GameObject shareUI;
-        public ShareUIController shareUIController;
 
         Animator scoreAnimator;
         Animator dailyRewardAnimator;
@@ -191,20 +185,7 @@ namespace _ThrowBattle
             //bestScore.text = ScoreManager.Instance.HighScore.ToString();
             coinText.text = CoinManager.Instance.Coins.ToString();
 
-            if (!DailyRewardController.Instance.disable && dailyRewardBtn.gameObject.activeInHierarchy)
-            {
-                if (DailyRewardController.Instance.CanRewardNow())
-                {
-                    dailyRewardBtnText.text = "GRAB YOUR REWARD!";
-                    dailyRewardAnimator.SetTrigger("activate");
-                }
-                else
-                {
-                    TimeSpan timeToReward = DailyRewardController.Instance.TimeUntilReward;
-                    dailyRewardBtnText.text = string.Format("REWARD IN {0:00}:{1:00}:{2:00}", timeToReward.Hours, timeToReward.Minutes, timeToReward.Seconds);
-                    dailyRewardAnimator.SetTrigger("deactivate");
-                }
-            }
+           
 
             if (settingsUI.activeSelf)
             {
@@ -247,17 +228,10 @@ namespace _ThrowBattle
             dailyRewardBtn.SetActive(false);
 
             // Enable or disable premium stuff
-            bool enablePremium = IsPremiumFeaturesEnabled();
             //leaderboardBtn.SetActive(enablePremium);
-            shareBtn.SetActive(enablePremium);
-            iapPurchaseBtn.SetActive(enablePremium);
-            removeAdsBtn.SetActive(enablePremium);
-            restorePurchaseBtn.SetActive(enablePremium);
 
             // Hidden by default
-            storeUI.SetActive(false);
             settingsUI.SetActive(false);
-            shareUI.SetActive(false);
 
             // These premium feature buttons are hidden by default
             // and shown when certain criteria are met (e.g. rewarded ad is loaded)
@@ -369,7 +343,6 @@ namespace _ThrowBattle
             if (GameManager.GameCount == 0)
             {
                 ShowWatchForCoinsBtn();
-                ShowDailyRewardBtn();
             }
         }
 
@@ -391,7 +364,6 @@ namespace _ThrowBattle
             header.SetActive(true);
             title.SetActive(false);
             homeBtn.SetActive(false);
-            shareUI.SetActive(false);
             restartBtn.SetActive(false);
             menuButtons.SetActive(false);
             dailyRewardBtn.SetActive(false);
@@ -426,15 +398,7 @@ namespace _ThrowBattle
             backBtn.SetActive(false);
             settingsUI.SetActive(false);
 
-            // Show 'daily reward' button
-            ShowDailyRewardBtn();
 
-            // Show these if premium features are enabled (and relevant conditions are met)
-            if (IsPremiumFeaturesEnabled())
-            {
-                ShowShareUI();
-                ShowWatchForCoinsBtn();
-            }
         }
 
         void ShowWatchForCoinsBtn()
@@ -453,14 +417,7 @@ namespace _ThrowBattle
 #endif
         }
 
-        void ShowDailyRewardBtn()
-        {
-            // Not showing the daily reward button if the feature is disabled
-            if (!DailyRewardController.Instance.disable)
-            {
-                dailyRewardBtn.SetActive(true);
-            }
-        }
+      
 
         public void ShowSettingsUI()
         {
@@ -472,15 +429,9 @@ namespace _ThrowBattle
             settingsUI.SetActive(false);
         }
 
-        public void ShowStoreUI()
-        {
-            storeUI.SetActive(true);
-        }
+      
 
-        public void HideStoreUI()
-        {
-            storeUI.SetActive(false);
-        }
+     
 
         public void ShowCharacterSelectionScene()
         {
@@ -516,105 +467,6 @@ namespace _ThrowBattle
 #endif
         }
 
-        public void GrabDailyReward()
-        {
-            if (DailyRewardController.Instance.CanRewardNow())
-            {
-                int reward = DailyRewardController.Instance.GetRandomReward();
-
-                // Round the number and make it mutiplies of 5 only.
-                int roundedReward = (reward / 5) * 5;
-
-                // Show the reward UI
-                ShowRewardUI(roundedReward);
-
-                // Update next time for the reward
-                DailyRewardController.Instance.ResetNextRewardTime();
-            }
-        }
-
-        public void ShowRewardUI(int reward)
-        {
-            rewardUI.SetActive(true);
-            rewardUI.GetComponent<RewardUIController>().Reward(reward);
-        }
-
-        public void HideRewardUI()
-        {
-            rewardUI.GetComponent<RewardUIController>().Close();
-        }
-
-        public void ShowLeaderboardUI()
-        {
-#if EASY_MOBILE
-        if (GameServices.IsInitialized())
-        {
-            //GameServices.ShowLeaderboardUI();
-        }
-        else
-        {
-#if UNITY_IOS
-            NativeUI.Alert("Service Unavailable", "The user is not logged in to Game Center.");
-#elif UNITY_ANDROID
-            GameServices.Init();
-#endif
-        }
-#endif
-        }
-
-        public void ShowAchievementsUI()
-        {
-#if EASY_MOBILE
-        if (GameServices.IsInitialized())
-        {
-            GameServices.ShowAchievementsUI();
-        }
-        else
-        {
-#if UNITY_IOS
-            NativeUI.Alert("Service Unavailable", "The user is not logged in to Game Center.");
-#elif UNITY_ANDROID
-            GameServices.Init();
-#endif
-        }
-#endif
-        }
-
-        public void PurchaseRemoveAds()
-        {
-#if EASY_MOBILE
-        InAppPurchaser.Instance.Purchase(InAppPurchaser.Instance.removeAds);
-#endif
-        }
-
-        public void RestorePurchase()
-        {
-#if EASY_MOBILE
-        InAppPurchaser.Instance.RestorePurchase();
-#endif
-        }
-
-        public void ShowShareUI()
-        {
-            if (!ScreenshotSharer.Instance.disableSharing)
-            {
-
-                Texture2D texture = ScreenshotSharer.Instance.CapturedScreenshot;
-                shareUIController.ImgTex = texture;
-
-#if EASY_MOBILE_PRO
-            AnimatedClip clip = ScreenshotSharer.Instance.RecordedClip;
-            shareUIController.AnimClip = clip;
-#endif
-
-                shareUI.SetActive(true);
-            }
-        }
-
-        public void HideShareUI()
-        {
-            shareUI.SetActive(false);
-        }
 
         public void ToggleSound()
         {
@@ -625,27 +477,6 @@ namespace _ThrowBattle
         {
             SoundManager.Instance.ToggleMusic();
         }
-
-        public void RateApp()
-        {
-            Utilities.RateApp();
-        }
-
-        public void OpenTwitterPage()
-        {
-            Utilities.OpenTwitterPage();
-        }
-
-        public void OpenFacebookPage()
-        {
-            Utilities.OpenFacebookPage();
-        }
-
-        public void ButtonClickSound()
-        {
-            Utilities.ButtonClickSound();
-        }
-
         void UpdateSoundButtons()
         {
             if (SoundManager.Instance.IsSoundOff())
@@ -674,9 +505,5 @@ namespace _ThrowBattle
             }
         }
 
-        bool IsPremiumFeaturesEnabled()
-        {
-            return PremiumFeaturesManager.Instance != null && PremiumFeaturesManager.Instance.enablePremiumFeatures;
-        }
     }
 }

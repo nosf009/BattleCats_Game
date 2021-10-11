@@ -134,8 +134,6 @@ namespace _ThrowBattle
         [Header("Object References")]
         public PlayerController playerController;
         public PopUpController popUpController;
-        public MultiplayerRealtimeManager multiplayerManager;
-
 
         void OnEnable()
         {
@@ -206,9 +204,7 @@ namespace _ThrowBattle
 
         public void MultiplayerRematch()
         {
-            multiplayerManager.waitingUI.SetActive(true);
             byte[] rematchSignal = { 3 };
-            playerController.SendDataToOtherPlayer(rematchSignal);
             isMultiplayerRematch = true;
         }
 

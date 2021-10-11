@@ -164,7 +164,7 @@ namespace _ThrowBattle
             byte[] actionData = { 10 };
             actionData = actionData.Concat(BitConverter.GetBytes(transform.position.x)).ToArray();
             actionData = actionData.Concat(BitConverter.GetBytes(transform.position.y)).ToArray();
-            GameManager.Instance.playerController.SendDataToOtherPlayer(actionData);
+            //GameManager.Instance.playerController.SendDataToOtherPlayer(actionData);
         }
 
         /// <summary>

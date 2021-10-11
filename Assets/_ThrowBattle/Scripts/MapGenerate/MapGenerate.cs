@@ -81,19 +81,6 @@ namespace _ThrowBattle
         [HideInInspector]
         public int maptypeIndex = 0;
 
-        private void OnEnable()
-        {
-#if EASY_MOBILE_PRO
-            MultiplayerRealtimeManager.OnLeaveRoom += OnPlayerLeft;
-#endif
-        }
-
-        private void OnDisable()
-        {
-#if EASY_MOBILE_PRO
-            MultiplayerRealtimeManager.OnLeaveRoom -= OnPlayerLeft;
-#endif
-        }
 
         // Use this for initialization
         void Start()
@@ -177,10 +164,8 @@ namespace _ThrowBattle
                 else
                 {
                     CreateSegmentMode segmentMode = new CreateSegmentMode();
-                    if (GameManager.Instance.IsMultiplayerMode())
-                        MultiPlayerGenerateHandling(ref segmentMode, isSender);
-                    else
-                        RandomSegmentHeightHandling(ref segmentMode);
+
+                    RandomSegmentHeightHandling(ref segmentMode);
 
                     AddRightQuadVertices(segmentMode);
                     currentVerticesIndex += 2;
@@ -217,33 +202,6 @@ namespace _ThrowBattle
             }
         }
 
-        void MultiPlayerGenerateHandling(ref CreateSegmentMode segmentMode, bool isSender)
-        {
-            if (isSender)
-            {
-                RandomSegmentHeightHandling(ref segmentMode);
-                if (segmentMode == CreateSegmentMode.NormalHigher)
-                    randomSegmentRecord.Add(1);
-                else if (segmentMode == CreateSegmentMode.MuchHigher)
-                    randomSegmentRecord.Add(2);
-                else if (segmentMode == CreateSegmentMode.NormalLower)
-                    randomSegmentRecord.Add(3);
-                else if (segmentMode == CreateSegmentMode.MuchLower)
-                    randomSegmentRecord.Add(4);
-            }
-            else
-            {
-                if (randomSegmentRecord[currentRandomRecord] == 1)
-                    segmentMode = CreateSegmentMode.NormalHigher;
-                else if (randomSegmentRecord[currentRandomRecord] == 2)
-                    segmentMode = CreateSegmentMode.MuchHigher;
-                else if (randomSegmentRecord[currentRandomRecord] == 3)
-                    segmentMode = CreateSegmentMode.NormalLower;
-                else if (randomSegmentRecord[currentRandomRecord] == 4)
-                    segmentMode = CreateSegmentMode.MuchLower;
-                currentRandomRecord++;
-            }
-        }
 
         void RandomSegmentHeightHandling(ref CreateSegmentMode segmentMode)
         {
@@ -324,10 +282,12 @@ namespace _ThrowBattle
                     SendMapData();
                 else
                 {
+                    /*
                     byte[] startGameSignal = { 2 };
                     byte[] thisPlayerCharacterIndex = { 9, (byte)CharacterManager.Instance.CurrentCharacterIndex };
                     GameManager.Instance.playerController.SendDataToOtherPlayer(thisPlayerCharacterIndex);
                     GameManager.Instance.playerController.SendDataToOtherPlayer(startGameSignal);
+                    */
                     GameManager.Instance.StartGame();
                 }
             }
@@ -345,9 +305,9 @@ namespace _ThrowBattle
                 dataArray[i] = (byte)randomSegmentRecord[i - 1];
             }
             byte[] thisPlayerCharacterIndex = { 9, (byte)CharacterManager.Instance.CurrentCharacterIndex };
-            GameManager.Instance.playerController.SendDataToOtherPlayer(thisPlayerCharacterIndex);
-            GameManager.Instance.playerController.SendDataToOtherPlayer(dataArray);
-            GameManager.Instance.playerController.StartWaitOtherGenerateMap();
+            //GameManager.Instance.playerController.SendDataToOtherPlayer(thisPlayerCharacterIndex);
+            //GameManager.Instance.playerController.SendDataToOtherPlayer(dataArray);
+            //GameManager.Instance.playerController.StartWaitOtherGenerateMap();
         }
 
         //Handle received map's data by convert byte array to int value then add it to randomSegmentRecord list

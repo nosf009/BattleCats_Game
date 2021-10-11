@@ -146,7 +146,6 @@ namespace _ThrowBattle
 #if EASY_MOBILE_PRO
         private MultiplayerRealtimeManager multiplayer;
 #endif
-        private MultiplayerGameData gameData;
         private AILevel enemyLevel;
         private LineRenderer aimLine;
         private GameMode gameMode;
@@ -319,15 +318,7 @@ namespace _ThrowBattle
             {
                 ChangeTurn();
             }
-            if (GameManager.gameMode == GameMode.MultiPlayer && resultMode == MatchResult.Lose)
-            {
-                if (lastPlayerID == thisPlayerID)
-                {
-                    byte[] suicideAlert = { 15 };
-                    GameManager.Instance.playerController.SendDataToOtherPlayer(suicideAlert);
-                    ChangeTurn();
-                }
-            }
+          
 
             Invoke("ResetCamera", 1f);
             if (FinishPlayer != null)
@@ -449,7 +440,6 @@ namespace _ThrowBattle
             textOtherPlayerDistance = otherPlayerDistanceUI.transform.GetComponentInChildren<Text>();
             pixelHeight = Camera.main.pixelHeight;
             pixelWidth = Camera.main.pixelWidth;
-            gameData = new MultiplayerGameData();
 #if EASY_MOBILE_PRO
             multiplayer = GameManager.Instance.multiplayerManager;
 #endif
@@ -519,379 +509,6 @@ namespace _ThrowBattle
 
 
 
-        #region Multiplayer Handle
-
-        public void StartWaitOtherGenerateMap()
-        {
-            StartCoroutine(WaitOtherGenerateMap());
-        }
-
-        //Loop check if other player receive data to generated the map yet,if not then send map's data again
-        IEnumerator WaitOtherGenerateMap()
-        {
-            yield return new WaitForSeconds(timeWaitResendMapData);
-            if (!generateMapComplete)
-            {
-                if (resendDataCount < resendDataLimit)
-                {
-                    byte[] thisPlayerCharacterIndex = { 9, (byte)CharacterManager.Instance.CurrentCharacterIndex };
-                    SendDataToOtherPlayer(thisPlayerCharacterIndex);
-                    ground.GetComponent<MapGenerate>().SendMapData();
-                    resendDataCount++;
-                }
-                else
-                {
-                    GameManager.Instance.multiplayerManager.Disconnect();
-                    PopUpController.Instance.SetMessage("Can't connect with other player");
-                    PopUpController.Instance.ShowPopUp();
-                }
-            }
-        }
-
-        //When other player or this player leave the room
-        void OnPlayerLeft()
-        {
-            if (players.ContainsKey(1))
-                Destroy(players[1]);
-            if (players.ContainsKey(-1))
-                Destroy(players[-1]);
-            if (playerWeapons.ContainsKey(1))
-                Destroy(playerWeapons[1]);
-            if (playerWeapons.ContainsKey(-1))
-                Destroy(playerWeapons[-1]);
-
-            textTimeCountDownObj.SetActive(false);
-            isPlay = false;
-            players.Clear();
-            playerWeapons.Clear();
-            leftPlayerWeaponCount = 0;
-            rightPlayerWeaponCount = 0;
-            if (!GameManager.Instance.isActivelyDisconnected)
-            {
-                PopUpController.Instance.SetMessage("Other player have disconnected!");
-                PopUpController.Instance.ShowPopUp();
-            }
-            pivotOtherPlayerDistanceUI.gameObject.SetActive(false);
-            aimUI.gameObject.SetActive(false);
-            TurnAimLine(false);
-        }
-
-        //Send data to other player for multiplayer mode
-        public void SendDataToOtherPlayer(byte[] data)
-        {
-#if EASY_MOBILE_PRO
-            multiplayer.SendMessage(true, otherPlayerID, data);
-#endif
-        }
-
-        IEnumerator WaitAnotherCharacterIndex()
-        {
-            float timeout = 0;
-            while (!isReceivedOtherChar)
-            {
-                timeout += Time.deltaTime;
-                if (timeout > 8f)
-                {
-                    break;
-                }
-                yield return null;
-            }
-            if (isReceivedOtherChar)
-            {
-                generateMapComplete = true;
-                GameManager.Instance.StartGame();
-                StopCoroutine(WaitOtherGenerateMap());
-            }
-            else
-            {
-                GameManager.Instance.multiplayerManager.Disconnect();
-                PopUpController.Instance.SetMessage("Can't connect with other player");
-                PopUpController.Instance.ShowPopUp();
-            }
-        }
-
-        //Handle received data for multiplayer game mode
-        public void HandleDataReceive(byte[] data)
-        {
-
-            //The received data has the first byte as the signal to determine which data it is
-            //The real data is data array without first byte then store real data into finalData by remove first byte
-            byte[] finalData = new byte[data.Length - 1];
-            finalData = GetByteArrayByRange(data, 1, data.Length);
-
-            //0.this is current player's health data
-            if (data[0] == 0)
-            {
-                if (data[1] == 1)
-                    players[1].GetComponent<Character>().ReceiveHealthData(finalData);
-                else
-                    players[-1].GetComponent<Character>().ReceiveHealthData(finalData);
-                return;
-            }
-            //1.this is the first click signal.
-            if (data[0] == 1)
-            {
-                FirstTouchHandling();
-                return;
-            }
-            //2.this is the signal to start the game
-            if (data[0] == 2)
-            {
-                if (isReceivedOtherChar)
-                {
-                    generateMapComplete = true;
-                    GameManager.Instance.StartGame();
-                    StopCoroutine(WaitOtherGenerateMap());
-                    return;
-                }
-                else
-                {
-                    StartCoroutine(WaitAnotherCharacterIndex());
-                }
-
-            }
-            // 3.this is the signal to rematch
-            if (data[0] == 3)
-            {
-                if (!GameManager.Instance.isMultiplayerRematch)
-                    ShowRematchInvitation();
-                else
-                {
-                    AcceptRematch();
-                }
-                return;
-            }
-            //4.this is the signal other player has rejected the invitation
-            if (data[0] == 4)
-            {
-                GameManager.Instance.multiplayerManager.waitingUI.SetActive(false);
-                PopUpController.Instance.SetMessage("Invitation rejected");
-                PopUpController.Instance.ShowPopUp();
-                return;
-            }
-            //5.the received data is signal for player to shoot
-            if (data[0] == 5)
-            {
-                HandleReceivedShootData(finalData);
-                return;
-            }
-            //6.the received data is map's data
-            if (!haveCreateMap && data[0] == 6)
-            {
-                ground.GetComponent<MapGenerate>().ByteArrayToMapData(finalData);
-                haveCreateMap = false;
-                return;
-            }
-            //7.Received data is shoot data include player's position,health
-            if (data[0] == 7)
-            {
-                isShotFromThisPlayer = false;
-                if (finalData[0] == 1)
-                {
-                    players[1].GetComponent<Character>().SetShootData(finalData);
-                    players[1].GetComponent<Character>().hasReceivedShootData = true;
-                    players[1].GetComponent<Character>().StartCheckHandleShootData();
-                }
-                else
-                {
-                    players[-1].GetComponent<Character>().SetShootData(finalData);
-                    players[-1].GetComponent<Character>().hasReceivedShootData = true;
-                    players[1].GetComponent<Character>().StartCheckHandleShootData();
-                }
-                return;
-            }
-            //8.that is the angle to aim
-            if (data[0] == 8)
-            {
-                HandleReceivedAngle(finalData);
-                return;
-            }
-            //9.this is other player's character index which will use to select character
-            if (data[0] == (byte)9)
-            {
-                isReceivedOtherChar = true;
-                otherPlayerCharacterIndex = finalData[0];
-                return;
-            }
-            //10.this is signal for current weapon to do special action
-            if (data[0] == 10)
-            {
-                weapon.GetComponent<SpecialAction>().HandleDataForAction(finalData);
-            }
-            //11.this is other player's character data
-            if (data[0] == 11)
-            {
-                otherPlayerCharacterIndex = finalData[0];
-            }
-            //12.this is signal other player have left the game
-            if (data[0] == 12)
-            {
-                GameManager.Instance.multiplayerManager.Disconnect();
-                PopUpController.Instance.SetMessage("Other player have disconnected!");
-                PopUpController.Instance.ShowPopUp();
-            }
-            //13.this is request this player to send back health,position of current character
-            if (data[0] == 13)
-            {
-                byte[] dataSendBack = { 14 };
-                dataSendBack = dataSendBack.Concat(BitConverter.GetBytes(currentCharacter.GetComponent<Character>().health)).Concat(BitConverter.GetBytes(currentCharacter.transform.position.x))
-                    .Concat(BitConverter.GetBytes(currentCharacter.transform.position.y)).ToArray();
-                SendDataToOtherPlayer(dataSendBack);
-            }
-            //14.this is data send back from step above include health,position of current character
-            if (data[0] == 14)
-            {
-                currentCharacter.GetComponent<Character>().ReceiveDataRequest(data);
-            }
-
-            //15. Received suicide alert: the other had suicided
-            if (data[0] == 15)
-            {
-                ChangeTurn();
-            }
-        }
-
-        //If the data received is shoot data
-        //then sync the current shot angle of the player with the firing angle of this data and then start firing
-        void HandleReceivedShootData(byte[] data)
-        {
-            isShotFromThisPlayer = false;
-            gameData = MultiplayerGameDataExtension.ToMultiplayerGameData(data);
-            AimByReceiveAngle(gameData.angleForUI);
-            angle = gameData.angle;
-            currentForce = gameData.force;
-            shootDirection.x = gameData.shootDirectionX;
-            shootDirection.y = gameData.shootDirectionY;
-            Vector3 shootPosition = new Vector2();
-            shootPosition.x = gameData.shootPositionX;
-            shootPosition.y = gameData.shootPositionY;
-            weapon.transform.position = shootPosition;
-            Vector3 otherPlayerPosition = new Vector2();
-            otherPlayerPosition.x = gameData.otherPlayerPositionX;
-            otherPlayerPosition.y = gameData.otherPlayerPositionY;
-            otherCharacter.transform.position = otherPlayerPosition;
-            lastPlayerID = gameData.playerID;
-            Shoot();
-        }
-
-
-        //Get the aiming angle every amount of time then rotate the current player's body with this angle
-        void HandleReceivedAngle(byte[] data)
-        {
-            float receiveAngle = BitConverter.ToSingle(data, 0);
-            AimByReceiveAngle(receiveAngle);
-        }
-
-        //when player shoot,it will send signal to other device include shoot direction,power and aim angle
-        void SendDataOnShoot()
-        {
-#if EASY_MOBILE_PRO
-            gameData.playerID = thisPlayerID;
-            gameData.force = currentForce;
-            gameData.angle = angle;
-            gameData.angleForUI = angleForUI;
-            gameData.shootDirectionX = shootDirection.x;
-            gameData.shootDirectionY = shootDirection.y;
-            gameData.shootPositionX = weapon.transform.position.x;
-            gameData.shootPositionY = weapon.transform.position.y;
-            gameData.otherPlayerPositionX = otherCharacter.transform.position.x;
-            gameData.otherPlayerPositionY = otherCharacter.transform.position.y;
-            StopAllCoroutines();
-            byte[] shootData = { 5 };
-            shootData = shootData.Concat(gameData.ToByteArray()).ToArray();
-            isSendData = false;
-            multiplayer.SendMessage(true, otherPlayerID, shootData);
-#endif
-        }
-
-
-        //Generate terrain before playing
-        public void SettingBeforePlay()
-        {
-            isLastShot = false;
-            isFinishPlayer = false;
-            if (currentOnlinePlayerID == thisPlayerID)
-            {
-                ground.GetComponent<MapGenerate>().GenerateMap();
-            }
-        }
-        public void AcceptRematch()
-        {
-            GameManager.Instance.multiplayerManager.waitingUI.SetActive(false);
-            GameManager.Instance.multiplayerManager.RaiseLeaveRoomEvent();
-            MultiplayerRematch();
-        }
-
-        void ShowRematchInvitation()
-        {
-            rematchUI.SetActive(true);
-        }
-
-        public void HideRematchInviTation()
-        {
-            rematchUI.SetActive(false);
-        }
-
-        public void DeclinedRematchInvitation()
-        {
-            rematchUI.SetActive(false);
-            byte[] declinedSignal = { 4 };
-            SendDataToOtherPlayer(declinedSignal);
-
-#if EASY_MOBILE_PRO
-            GameManager.Instance.multiplayerManager.LeaveRoom();
-#endif
-        }
-
-        //This method will be called on all device to start rematch after the invitation of the rematch is accepted
-        void MultiplayerRematch()
-        {
-#if EASY_MOBILE_PRO
-            GameManager.Instance.multiplayerManager.waitingUI.SetActive(false);
-            GameManager.Instance.isMultiplayerRematch = false;
-            List<EasyMobile.Participant> participantsArray = GameManager.Instance.multiplayerManager.GetConnectedParticipants();
-            if (participantsArray.Count < 2)
-                return;
-
-            if (multiplayerRematchCount % 2 == 0)
-                currentOnlinePlayerID = participantsArray[1].ParticipantId;
-            else
-                currentOnlinePlayerID = participantsArray[0].ParticipantId;
-            multiplayerRematchCount++;
-            SettingBeforePlay();
-#endif
-        }
-
-
-        //Send this angle for other device to show in gameplay each period of time
-        IEnumerator WaitSendAimAngle()
-        {
-
-            yield return new WaitForSeconds(sendDataDelayTime);
-#if EASY_MOBILE_PRO
-            if (isSendData)
-            {
-                byte[] byteArrayAngle = { 8 };
-                byteArrayAngle = byteArrayAngle.Concat(BitConverter.GetBytes(angleForUI)).ToArray();
-                multiplayer.SendMessage(true, otherPlayerID, byteArrayAngle);
-                StartCoroutine(WaitSendAimAngle());
-            }
-#endif
-        }
-
-        //Get a byte array from another byte array by range
-        byte[] GetByteArrayByRange(byte[] array, int fromIndex, int toIndex)
-        {
-            byte[] result = new byte[toIndex - fromIndex];
-            int resultIndex = 0;
-            for (int i = fromIndex; i < toIndex; i++)
-            {
-                result[resultIndex] = array[i];
-                resultIndex++;
-            }
-            return result;
-        }
-        #endregion
         #region Main GamePlay
 
         public void NoticePlayerTurn(string message = null)
@@ -1047,11 +664,7 @@ namespace _ThrowBattle
 
             RotatingBody();
 
-            if (isFirstAim && gameMode == GameMode.MultiPlayer)
-            {
-                isFirstAim = false;
-                StartCoroutine(WaitSendAimAngle());
-            }
+           
             ShowAimUI(angleForUI, shootDirection);
         }
 
@@ -1221,7 +834,7 @@ namespace _ThrowBattle
             {
                 isShotFromThisPlayer = true;
                 lastPlayerID = thisPlayerID;
-                SendDataOnShoot();
+                //SendDataOnShoot();
             }
             if (isThisPlayerTurn)
                 isThisPlayerShoot = true;
@@ -1399,7 +1012,6 @@ namespace _ThrowBattle
             resultTextObj.SetActive(false);
             player1HealthImg.fillAmount = 1;
             player2HealthImg.fillAmount = 1;
-            GameManager.Instance.multiplayerManager.cannotInteractImg.SetActive(false);
             currentPlayerIndex = 1;
             SetTurnWithGameMode();
             if (gameMode != GameMode.BirdHunt)

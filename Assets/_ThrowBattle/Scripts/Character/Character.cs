@@ -118,7 +118,7 @@ namespace _ThrowBattle
             byte[] healthData = { 0, (byte)playerByteIndex };
             byte[] healthByteArray = BitConverter.GetBytes(health);
             healthData = healthData.Concat(healthByteArray).ToArray();
-            GameManager.Instance.playerController.SendDataToOtherPlayer(healthData);
+            //GameManager.Instance.playerController.SendDataToOtherPlayer(healthData);
         }
 
         public void ReceiveHealthData(byte[] data)
@@ -313,14 +313,14 @@ namespace _ThrowBattle
                 requestDataCount++;
                 SendRequestData();
             }
-            else if (!hasStopCoroutine)
-                GameManager.Instance.multiplayerManager.Disconnect();
+            //else if (!hasStopCoroutine)
+                //GameManager.Instance.multiplayerManager.Disconnect();
         }
 
         void SendRequestData()
         {
             byte[] data = { 13 };
-            GameManager.Instance.playerController.SendDataToOtherPlayer(data);
+            //GameManager.Instance.playerController.SendDataToOtherPlayer(data);
         }
 
         public void ReceiveDataRequest(byte[] data = null)
@@ -366,13 +366,13 @@ namespace _ThrowBattle
             {
                 byte[] shootDataSend = { 7, 1 };
                 shootDataSend = shootDataSend.Concat(TotalArray(byteArrayHealth, byteArrayPoisionX, byteArrayPoisionY)).ToArray();
-                GameManager.Instance.playerController.SendDataToOtherPlayer(shootDataSend);
+                //GameManager.Instance.playerController.SendDataToOtherPlayer(shootDataSend);
             }
             else
             {
                 byte[] shootDataSend = { 7, 2 };
                 shootDataSend = shootDataSend.Concat(TotalArray(byteArrayHealth, byteArrayPoisionX, byteArrayPoisionY)).ToArray();
-                GameManager.Instance.playerController.SendDataToOtherPlayer(shootDataSend);
+               // GameManager.Instance.playerController.SendDataToOtherPlayer(shootDataSend);
             }
         }
         Vector3 positionAfterShot;
