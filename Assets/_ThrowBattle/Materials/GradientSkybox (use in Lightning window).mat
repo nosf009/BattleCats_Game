@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: GradientSkybox (use in Lightning window)
   m_Shader: {fileID: 4800000, guid: 42e802768b43c394e879e5c2f64c55b3, type: 3}
   m_ShaderKeywords: _EMISSION
@@ -22,5 +23,6 @@ Material:
     - _GroundPos: -0.5
     - _SkyPos: 0.5
     m_Colors:
-    - _Color: {r: 0.4779412, g: 0.8174442, b: 0.9558824, a: 1}
-    - _Color2: {r: 0.9852941, g: 0.9852941, b: 0.9852941, a: 1}
+    - _Color: {r: 0.4039216, g: 0.21960786, b: 0.53333336, a: 1}
+    - _Color2: {r: 0.93725497, g: 0.33333334, b: 0.3019608, a: 1}
+  m_BuildTextureStacks: []

@@ -395,7 +395,7 @@ namespace _ThrowBattle
 
             restartBtn.SetActive(true);
             menuButtons.SetActive(true);
-            backBtn.SetActive(false);
+            //backBtn.SetActive(false);
             settingsUI.SetActive(false);
 
 

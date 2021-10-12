@@ -22,7 +22,7 @@ namespace _ThrowBattle
         public Sound unlock;
 
         public Sound shot;
-        public Sound hit;
+        public List<Sound> hitSounds = new List<Sound>();
 
         public delegate void MusicStatusChangedHandler(bool isOn);
         public static event MusicStatusChangedHandler MusicStatusChanged;
@@ -86,6 +86,12 @@ namespace _ThrowBattle
         public void PlaySound(Sound sound, bool isSpecialSound = false, bool autoScaleVolume = true, float maxVolumeScale = 1f)
         {
             StartCoroutine(CRPlaySound(sound, isSpecialSound, autoScaleVolume, maxVolumeScale));
+        }
+
+        public void PlaySoundFromList(List<Sound> sound, bool isSpecialSound = false, bool autoScaleVolume = true, float maxVolumeScale = 1f)
+        {
+            Sound s = sound[Random.Range(0, sound.Count)];
+            PlaySound(s);
         }
 
         IEnumerator CRPlaySound(Sound sound, bool isSpecialSound = false, bool autoScaleVolume = true, float maxVolumeScale = 1f)

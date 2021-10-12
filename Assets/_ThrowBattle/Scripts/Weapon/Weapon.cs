@@ -461,9 +461,9 @@ namespace _ThrowBattle
 
         protected virtual void MakeDamgeToPlayer(Collider2D collision, Vector2 velocity, Character character, bool isMakeDamage = true)
         {
-            if (SoundManager.Instance.hit != null)
+            if (SoundManager.Instance.hitSounds != null)
             {
-                SoundManager.Instance.PlaySound(SoundManager.Instance.hit);
+                SoundManager.Instance.PlaySoundFromList(SoundManager.Instance.hitSounds);
             }
 
             bool isThisOpponent = (character.health <= 0);
