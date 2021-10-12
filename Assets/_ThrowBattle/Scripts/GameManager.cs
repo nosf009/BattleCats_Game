@@ -324,7 +324,7 @@ namespace _ThrowBattle
         // A new game official starts
         public void StartGame()
         {
-            Screen.orientation = curOrientation;
+            //Screen.orientation = curOrientation;
             DelayStartGame();
         }
 

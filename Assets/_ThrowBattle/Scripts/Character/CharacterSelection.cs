@@ -8,9 +8,9 @@ namespace _ThrowBattle
     public class CharacterSelection : MonoBehaviour
     {
         public GameObject characterPriceUI;
-        public GameObject unlockBtn;
+        //public GameObject unlockBtn;
         public GameObject selectBtn;
-        public GameObject lockBtn;
+        //public GameObject lockBtn;
         public Text priceText;
         public Text playerSelectText;
         public GameObject priceImg;
@@ -109,7 +109,7 @@ namespace _ThrowBattle
             if (unlockSucceeded)
             {
                 //currentCharacter.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                unlockBtn.gameObject.SetActive(false);
+                //unlockBtn.gameObject.SetActive(false);
                 selectBtn.gameObject.SetActive(true);
 
                 SoundManager.Instance.PlaySound(SoundManager.Instance.unlock);
@@ -130,10 +130,10 @@ namespace _ThrowBattle
                 priceImg.gameObject.SetActive(false);
             }
 
-            if (characterComponent.IsUnlocked)
+            if (/*characterComponent.IsUnlocked*/ true)
             {
-                unlockBtn.gameObject.SetActive(false);
-                lockBtn.gameObject.SetActive(false);
+                //unlockBtn.gameObject.SetActive(false);
+                //lockBtn.gameObject.SetActive(false);
                 selectBtn.gameObject.SetActive(true);
             }
             else
@@ -141,13 +141,13 @@ namespace _ThrowBattle
                 selectBtn.gameObject.SetActive(false);
                 if (CoinManager.Instance.Coins >= characterComponent.price)
                 {
-                    unlockBtn.gameObject.SetActive(true);
-                    lockBtn.gameObject.SetActive(false);
+                    //unlockBtn.gameObject.SetActive(true);
+                    //lockBtn.gameObject.SetActive(false);
                 }
                 else
                 {
-                    unlockBtn.gameObject.SetActive(false);
-                    lockBtn.gameObject.SetActive(true);
+                    //unlockBtn.gameObject.SetActive(false);
+                    //lockBtn.gameObject.SetActive(true);
                 }
             }
 
@@ -166,8 +166,8 @@ namespace _ThrowBattle
                 characterPriceUI.SetActive(false);
 
                 selectBtn.SetActive(false);
-                unlockBtn.gameObject.SetActive(false);
-                lockBtn.gameObject.SetActive(false);
+                //unlockBtn.gameObject.SetActive(false);
+                //lockBtn.gameObject.SetActive(false);
 
             }
 

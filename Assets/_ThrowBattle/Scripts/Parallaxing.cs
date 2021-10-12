@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Parallaxing : MonoBehaviour {
 
+
     [HideInInspector]
     public List<Transform> backgrounds;
     private float[] parallaxScale;
@@ -15,6 +16,7 @@ public class Parallaxing : MonoBehaviour {
     Vector3 backgroundDestination;
     bool isParallaxing = false;
 
+    /*
     private void OnEnable()
     {
         mainCamera = Camera.main.transform;
@@ -43,5 +45,5 @@ public class Parallaxing : MonoBehaviour {
             }
             previousCameraPosition = mainCamera.transform.position;
         }
-    }
+    }*/
 }

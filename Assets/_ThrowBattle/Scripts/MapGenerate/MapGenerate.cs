@@ -258,6 +258,7 @@ namespace _ThrowBattle
             EdgeCollider2D collider = gameObject.AddComponent<EdgeCollider2D>();
             collider.points = surfaceVertices.ToArray();
 
+            /*
             RaycastHit2D hit = Physics2D.Raycast(GameManager.Instance.playerController.leftPosition.position, Vector2.down, LayerMask.GetMask("Plane"));
             Camera.main.GetComponent<Parallaxing>().backgrounds.Clear();
             oldBackgrounds.Clear();
@@ -274,6 +275,8 @@ namespace _ThrowBattle
                     Camera.main.GetComponent<Parallaxing>().backgrounds.Add(background.transform);
                 }
             }
+            */
+
             //Check if this is multiplayer mode then decide to send map's data to other player 
             //or send start game signal
             if (GameManager.Instance.IsMultiplayerMode())
@@ -291,7 +294,7 @@ namespace _ThrowBattle
                     GameManager.Instance.StartGame();
                 }
             }
-            Camera.main.GetComponent<Parallaxing>().InitialSetting();
+            //Camera.main.GetComponent<Parallaxing>().InitialSetting();
         }
 
         //Send Map's data to other player by converting randomSegmentRecord to byte array

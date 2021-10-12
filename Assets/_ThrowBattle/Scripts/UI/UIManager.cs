@@ -18,13 +18,8 @@ namespace _ThrowBattle
         public GameObject charactePriceUI;
         public GameObject characterSelection;
         public GameObject modeMenu;
-        public GameObject playWithFriendBtn;
         public GameObject playWithComBtn;
         public GameObject playOnlineBtn;
-        public GameObject quickMatchBtn;
-        public GameObject playAppleBtn;
-        public GameObject playBirdShootBtn;
-        public GameObject matchMakerBtn;
         public GameObject mainCanvas;
         public GameObject characterSelectionUI;
         public GameObject header;
@@ -89,7 +84,6 @@ namespace _ThrowBattle
         // Use this for initialization
         void Start()
         {
-            modeMenu.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             origPosCharSelect = charDescriptionTrans.anchoredPosition;
             float ratio = Camera.main.aspect;
             if (ratio > 1)
@@ -124,7 +118,7 @@ namespace _ThrowBattle
             charDescriptionTrans.anchoredPosition = temp;
             charDescriptionTrans.localScale = new Vector3(1.5f, 1.5f, 1);
 
-            modeMenu.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.Flexible;
+            //modeMenu.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.Flexible;
             menuButtons.GetComponent<RectTransform>().localScale = new Vector3(1.5f, 1.5f, 1);
             if (GameManager.Instance.zoomFactor == 1)
             {
@@ -142,7 +136,7 @@ namespace _ThrowBattle
             charDescriptionTrans.anchoredPosition = origPosCharSelect;
             charDescriptionTrans.localScale = new Vector3(1, 1, 1);
             menuButtons.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            modeMenu.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            //modeMenu.GetComponent<GridLayoutGroup>().constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             if (GameManager.Instance.zoomFactor == 0.5)
             {
                 GameManager.Instance.SetZoomValue(1);
@@ -242,8 +236,6 @@ namespace _ThrowBattle
         {
             if (GameManager.gameMode == GameMode.MultiPlayer)
             {
-                quickMatchBtn.SetActive(true);
-                matchMakerBtn.SetActive(true);
                 GameManager.Instance.ExitCharacterSelection();
             }
             else if (GameManager.gameMode == GameMode.PlayWithFriend)
@@ -295,23 +287,13 @@ namespace _ThrowBattle
         public void ShowPlayOnlineBtns(bool isShow)
         {
             playWithComBtn.SetActive(!isShow);
-            playWithFriendBtn.SetActive(!isShow);
             playOnlineBtn.SetActive(!isShow);
-            playAppleBtn.SetActive(!isShow);
-            playBirdShootBtn.SetActive(!isShow);
-            quickMatchBtn.SetActive(isShow);
-            matchMakerBtn.SetActive(isShow);
         }
 
         public void ShowCharSelectionBtns(bool isShow)
         {
             playWithComBtn.SetActive(!isShow);
-            playWithFriendBtn.SetActive(!isShow);
             playOnlineBtn.SetActive(!isShow);
-            playAppleBtn.SetActive(!isShow);
-            playBirdShootBtn.SetActive(!isShow);
-            quickMatchBtn.SetActive(!isShow);
-            matchMakerBtn.SetActive(!isShow);
             //backBtn.SetActive(true);
         }
 
