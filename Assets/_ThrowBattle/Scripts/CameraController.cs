@@ -5,15 +5,11 @@ namespace _ThrowBattle
 {
     public class CameraController : MonoBehaviour
     {
-        [HideInInspector]
         public GameObject recordCamera;
-        [HideInInspector]
         public Transform playerTransform;
         private Vector3 velocity = Vector3.zero;
         private Vector3 originalDistance;
-        [HideInInspector]
         public Transform injuredPlayerTransform;
-        [HideInInspector]
         public bool followInjuredPlayer;
 
         [Header("Camera Follow Smooth-Time")]
@@ -25,15 +21,11 @@ namespace _ThrowBattle
         // Amplitude of the shake. A larger value shakes the camera harder.
         public float shakeAmount = 0.2f;
         public float decreaseFactor = 0.3f;
-        [HideInInspector]
         public Vector3 originalPos;
-        Vector3 originalPosition;
+        public Vector3 originalPosition;
 
-        [HideInInspector]
         public bool fixPosition=true;
-        [HideInInspector]
         public bool isChangeTurn;
-        [HideInInspector]
         public bool isCamMoving = false;
 
         private float currentShakeDuration;

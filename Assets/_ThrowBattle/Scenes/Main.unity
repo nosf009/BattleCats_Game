@@ -15263,11 +15263,12 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   injuredPlayerTransform: {fileID: 0}
   followInjuredPlayer: 0
-  smoothTime: 1
+  smoothTime: 1.5
   shakeDuration: 0.1
   shakeAmount: 0.2
   decreaseFactor: 0.3
   originalPos: {x: 0, y: 0, z: 0}
+  originalPosition: {x: 0, y: 0, z: 0}
   fixPosition: 0
   isChangeTurn: 0
   isCamMoving: 0

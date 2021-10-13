@@ -1527,8 +1527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterSequenceNumber: 0
-  characterName: John
-  characterDescription: Default character
+  characterName: BattleCat
+  characterDescription: The beginner battlecat that fights like a noob
   price: 0
   isFree: 1
   health: 20

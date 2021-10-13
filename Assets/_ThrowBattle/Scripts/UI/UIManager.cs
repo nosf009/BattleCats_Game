@@ -113,6 +113,8 @@ namespace _ThrowBattle
 
         void UseLandscapeLeftLayout()
         {
+            return;
+
             Vector3 temp = origPosCharSelect;
             temp.x = temp.x + 500;
             charDescriptionTrans.anchoredPosition = temp;

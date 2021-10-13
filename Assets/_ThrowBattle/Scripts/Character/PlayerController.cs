@@ -143,75 +143,61 @@ namespace _ThrowBattle
         [HideInInspector]
         public bool generateMapComplete;
 
-#if EASY_MOBILE_PRO
-        private MultiplayerRealtimeManager multiplayer;
-#endif
-        private AILevel enemyLevel;
-        private LineRenderer aimLine;
-        private GameMode gameMode;
-        private Text textOtherPlayerDistance;
-        private Weapon weaponComponent;
-
-        private GameObject bodyAim;
-        private GameObject leftPlayerWeapon;
-        private GameObject rightPlayerWeapon;
-        private Quaternion orgRotationDistanceUI;
-
-        private Vector2 shootDirection;
-        private Vector2 originalTouchPosition;
-        private Vector2 currentTouchPosition;
-        private Vector2 imgScreenPosition;
-        private Vector2 otherPlayerScreenPosition;
-        private Vector2 centerScreenPosition;
-        private Vector2 birdSpawnPosition1;
-        private Vector2 birdSpawnPosition2;
+        public AILevel enemyLevel;
+        public LineRenderer aimLine;
+        public GameMode gameMode;
+        public Text textOtherPlayerDistance;
+        public Weapon weaponComponent;
+        public GameObject bodyAim;
+        public GameObject leftPlayerWeapon;
+        public GameObject rightPlayerWeapon;
+        public Quaternion orgRotationDistanceUI;
+        public Vector2 shootDirection;
+        public Vector2 originalTouchPosition;
+        public Vector2 currentTouchPosition;
+        public Vector2 imgScreenPosition;
+        public Vector2 otherPlayerScreenPosition;
+        public Vector2 centerScreenPosition;
+        public Vector2 birdSpawnPosition1;
+        public Vector2 birdSpawnPosition2;
 
 
         //private Vector3 worldPositionOriginalTouch;
         //private Vector3 worldPositionCurrentTouch;
 
-        private float aimDistanceLimit = 0.35f;
-        private float currentWorldAimDistance;
-        private float angleForUI;
-        private float sendDataDelayTime;
-        private float characterHeigh;
-        private float pixelWidth;
-        private float pixelHeight;
-        private float previousAngle = 0;
-        private float enemyHitFrequency;
-
-        [HideInInspector]
+        public float aimDistanceLimit = 0.35f;
+        public float currentWorldAimDistance;
+        public float angleForUI;
+        public float sendDataDelayTime;
+        public float characterHeigh;
+        public float pixelWidth;
+        public float pixelHeight;
+        public float previousAngle = 0;
+        public float enemyHitFrequency;
         public int currentPlayerIndex = 1;
-        private int leftPlayerWeaponCount = 0;
-        private int rightPlayerWeaponCount = 0;
-        private int numberWeaponLimit;
-        private int currentAimDirection;
-#if EASY_MOBILE_PRO
-        private int multiplayerRematchCount = 0;
-#endif
-        private int resendDataCount = 0;
-        private int count = 0;
-        private int limitAimCount = 0;
-        private int life = 3;
+        public int leftPlayerWeaponCount = 0;
+        public int rightPlayerWeaponCount = 0;
+        public int numberWeaponLimit;
+        public int currentAimDirection;
+        public int resendDataCount = 0;
+        public int count = 0;
+        public int limitAimCount = 0;
+        public int life = 3;
+        public bool isShootPhase = false;
+        public bool isFirstAim = true;
+        public bool haveCreateMap = false;
+        public bool waitEndTurn;
+        public bool firstLogin = true;
+        public bool isTurnBegin = true;
+        public bool isFirstComAim = true;
+        public bool holdShoot = false;
+        public bool isCheckPower = false;
+        public bool isFinishPlayer;
+        public bool isLastShot = false;
+        public bool isFirst = true;
+        public bool isReceivedOtherChar = false;
 
-        private bool isShootPhase = false;
-        private bool isFirstAim = true;
-#if EASY_MOBILE_PRO
-        private bool isSendData = true;
-#endif
-        private bool haveCreateMap = false;
-        private bool waitEndTurn;
-        private bool firstLogin = true;
-        private bool isTurnBegin = true;
-        private bool isFirstComAim = true;
-        private bool holdShoot = false;
-        private bool isCheckPower = false;
-        private bool isFinishPlayer;
-        private bool isLastShot = false;
-        private bool isFirst = true;
-        private bool isReceivedOtherChar = false;
-
-        private Rigidbody2D rigidbodyWeapon;
+        public Rigidbody2D rigidbodyWeapon;
 
         void OnEnable()
         {
@@ -221,38 +207,15 @@ namespace _ThrowBattle
             isFinishPlayer = false;
             isLastShot = false;
 
-#if EASY_MOBILE_PRO
-            MultiplayerRealtimeManager.OnLeaveRoom += OnPlayerLeft;
-#endif
+
         }
 
         void OnDisable()
         {
             GameManager.GameStateChanged -= OnGameStateChanged;
 
-#if EASY_MOBILE_PRO
-            MultiplayerRealtimeManager.OnLeaveRoom -= OnPlayerLeft;
-#endif
         }
 
-        void OnUserLoginSucceeded()
-        {
-            Debug.Log("User logged in successfully.");
-        }
-
-        void OnUserLoginFailed()
-        {
-            if (firstLogin)
-            {
-                firstLogin = false;
-                if (Application.internetReachability == NetworkReachability.NotReachable)
-                {
-                    PopUpController.Instance.SetMessage("Unable to connect to the internet, you are in offline mode");
-                    PopUpController.Instance.ShowPopUp();
-                }
-                Debug.Log("User login failed.");
-            }
-        }
 
         public void LostLife()
         {
@@ -440,9 +403,6 @@ namespace _ThrowBattle
             textOtherPlayerDistance = otherPlayerDistanceUI.transform.GetComponentInChildren<Text>();
             pixelHeight = Camera.main.pixelHeight;
             pixelWidth = Camera.main.pixelWidth;
-#if EASY_MOBILE_PRO
-            multiplayer = GameManager.Instance.multiplayerManager;
-#endif
             sendDataDelayTime = GameManager.Instance.sendDataDelayTime;
             firstClickImg.gameObject.SetActive(false);
             aimLine.enabled = false;

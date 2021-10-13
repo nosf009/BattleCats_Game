@@ -14,7 +14,7 @@ namespace _ThrowBattle
     {
         public static SpriteController Instance { get; private set; }
         public GameObject[] birdPrefabs;
-        private Dictionary<GameObject, TextureParameter> playerTexture=new Dictionary<GameObject, TextureParameter>();
+        private Dictionary<GameObject, TextureParameter> playerTexture = new Dictionary<GameObject, TextureParameter>();
         private Color transp;
 
         public GameObject RandomBird()
@@ -60,7 +60,7 @@ namespace _ThrowBattle
 
         }
 
-        public void DestroySprite(CircleCollider2D cc,SpriteRenderer spriteRender, float dirX)
+        public void DestroySprite(CircleCollider2D cc, SpriteRenderer spriteRender, float dirX)
         {
             if (spriteRender)
             {
@@ -70,6 +70,9 @@ namespace _ThrowBattle
                 V2int c = World2Pixel(cc.bounds.center.x, cc.bounds.center.y, spriteRender.gameObject, spriteRender, dirX);
 
                 int r = Mathf.RoundToInt(cc.bounds.size.x * playerTexture[spriteRender.gameObject].widthPixel / playerTexture[spriteRender.gameObject].widthWorld);
+
+                r = r / 3;
+
 
                 int x, y, px, nx, py, ny, d = 0;
 
@@ -116,10 +119,10 @@ namespace _ThrowBattle
                 spriteRender.sprite.texture.Apply();
                 cc.gameObject.SetActive(false);
             }
-           
+
         }
 
-        private V2int World2Pixel(float x, float y,GameObject textureID,SpriteRenderer spriteRenderer)
+        private V2int World2Pixel(float x, float y, GameObject textureID, SpriteRenderer spriteRenderer)
         {
             V2int v = new V2int();
 
