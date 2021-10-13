@@ -114,13 +114,13 @@ namespace _ThrowBattle
         public float percentageIncreaseSpeed = 0.2f;
 
         public float minZoom = 8;
-
+        public float menuZoom = 5;
         public float maxZoom = 12;
         [HideInInspector]
         public float originalMinZoom;
         [HideInInspector]
         public float originalMaxZoom;
-        [HideInInspector]
+        //[HideInInspector]
         public float zoomFactor = 0;
         [HideInInspector]
         public ScreenOrientation curOrientation;
@@ -182,7 +182,8 @@ namespace _ThrowBattle
             float ratio = Camera.main.aspect;
             Screen.orientation = ScreenOrientation.Portrait;
             SetOriginalZoom();
-            SetZoomValue(zoomFactor);
+            //SetZoomValue(menuZoom);
+            FindObjectOfType<Camera>().orthographicSize = menuZoom;
             if (Instance == null)
             {
                 Instance = this;
@@ -224,6 +225,7 @@ namespace _ThrowBattle
             maxZoom = originalMaxZoom;
             PopUpController.Instance = popUpController;
             Application.targetFrameRate = targetFrameRate;
+            FindObjectOfType<Camera>().orthographicSize = menuZoom;
             ScoreManager.Instance.Reset();
             popUpController.HidePopUp();
             PrepareGame();
