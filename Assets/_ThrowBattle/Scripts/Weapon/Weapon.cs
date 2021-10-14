@@ -463,7 +463,15 @@ namespace _ThrowBattle
         {
             if (SoundManager.Instance.hitSounds != null)
             {
-                SoundManager.Instance.PlaySoundFromList(SoundManager.Instance.hitSounds);
+                if (character.isThisPlayerCharacter)
+                {
+                    SoundManager.Instance.PlaySoundFromList(SoundManager.Instance.hitSounds);
+                }
+                else
+                {
+                    SoundManager.Instance.PlaySoundFromList(SoundManager.Instance.hitSounds2);
+                }
+
             }
 
             bool isThisOpponent = (character.health <= 0);

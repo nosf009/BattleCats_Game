@@ -23,6 +23,7 @@ namespace _ThrowBattle
 
         public Sound shot;
         public List<Sound> hitSounds = new List<Sound>();
+        public List<Sound> hitSounds2 = new List<Sound>();
 
         public delegate void MusicStatusChangedHandler(bool isOn);
         public static event MusicStatusChangedHandler MusicStatusChanged;

@@ -4486,6 +4486,7 @@ GameObject:
   - component: {fileID: 478281505}
   - component: {fileID: 478281504}
   - component: {fileID: 478281503}
+  - component: {fileID: 478281502}
   m_Layer: 5
   m_Name: RestartBtn
   m_TagString: Untagged
@@ -4511,9 +4512,24 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -70, y: 175}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchoredPosition: {x: -202.6, y: 195.6}
+  m_SizeDelta: {x: 356, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &478281502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478281500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!114 &478281503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5982,6 +5998,7 @@ GameObject:
   - component: {fileID: 663166558}
   - component: {fileID: 663166557}
   - component: {fileID: 663166556}
+  - component: {fileID: 663166555}
   m_Layer: 5
   m_Name: HomeBtn
   m_TagString: Untagged
@@ -5989,6 +6006,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &663166555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663166554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!114 &663166556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6173,8 +6205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 70, y: 175}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchoredPosition: {x: 209.1, y: 199.3}
+  m_SizeDelta: {x: 360, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &684128822
 GameObject:
@@ -10640,7 +10672,55 @@ MonoBehaviour:
   isShotFromThisPlayer: 0
   isDie: 0
   generateMapComplete: 0
+  enemyLevel: 0
+  aimLine: {fileID: 0}
+  gameMode: 0
+  textOtherPlayerDistance: {fileID: 0}
+  weaponComponent: {fileID: 0}
+  bodyAim: {fileID: 0}
+  leftPlayerWeapon: {fileID: 0}
+  rightPlayerWeapon: {fileID: 0}
+  orgRotationDistanceUI: {x: 0, y: 0, z: 0, w: 0}
+  shootDirection: {x: 0, y: 0}
+  originalTouchPosition: {x: 0, y: 0}
+  currentTouchPosition: {x: 0, y: 0}
+  imgScreenPosition: {x: 0, y: 0}
+  otherPlayerScreenPosition: {x: 0, y: 0}
+  centerScreenPosition: {x: 0, y: 0}
+  birdSpawnPosition1: {x: 0, y: 0}
+  birdSpawnPosition2: {x: 0, y: 0}
+  aimDistanceLimit: 0.35
+  currentWorldAimDistance: 0
+  angleForUI: 0
+  sendDataDelayTime: 0
+  characterHeigh: 0
+  pixelWidth: 0
+  pixelHeight: 0
+  previousAngle: 0
+  enemyHitFrequency: 0
   currentPlayerIndex: 1
+  leftPlayerWeaponCount: 0
+  rightPlayerWeaponCount: 0
+  numberWeaponLimit: 0
+  currentAimDirection: 0
+  resendDataCount: 0
+  count: 0
+  limitAimCount: 0
+  life: 3
+  isShootPhase: 0
+  isFirstAim: 1
+  haveCreateMap: 0
+  waitEndTurn: 0
+  firstLogin: 1
+  isTurnBegin: 1
+  isFirstComAim: 1
+  holdShoot: 0
+  isCheckPower: 0
+  isFinishPlayer: 0
+  isLastShot: 0
+  isFirst: 1
+  isReceivedOtherChar: 0
+  rigidbodyWeapon: {fileID: 0}
 --- !u!4 &1267886780
 Transform:
   m_ObjectHideFlags: 0
@@ -11533,7 +11613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11497630, guid: 723f4b5589fb4aa4e9935de29886c2f8, type: 3}
       propertyPath: characters.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11497630, guid: 723f4b5589fb4aa4e9935de29886c2f8, type: 3}
       propertyPath: characters.Array.data[0]
@@ -11543,7 +11623,7 @@ PrefabInstance:
     - target: {fileID: 11497630, guid: 723f4b5589fb4aa4e9935de29886c2f8, type: 3}
       propertyPath: characters.Array.data[1]
       value: 
-      objectReference: {fileID: 1206674425863136, guid: fbc7a3321c8753a4bb6ab71af4cd039e,
+      objectReference: {fileID: 1206674425863136, guid: aed0d5239a69fd54d9732c47a111ceb7,
         type: 3}
     - target: {fileID: 11497630, guid: 723f4b5589fb4aa4e9935de29886c2f8, type: 3}
       propertyPath: characters.Array.data[2]
@@ -14255,16 +14335,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
       propertyPath: hitSounds.Array.size
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
+      propertyPath: hitSounds2.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
       propertyPath: hitSounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 04a99f71aa16c484c917d5915a384ac3, type: 3}
+      objectReference: {fileID: 8300000, guid: 8ed5b544aa4809843a9cf8a7f7a938c4, type: 3}
     - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
       propertyPath: hitSounds.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 04a99f71aa16c484c917d5915a384ac3, type: 3}
+      objectReference: {fileID: 8300000, guid: 345df5ed098c52042a03469dbb7939fc, type: 3}
     - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
       propertyPath: hitSounds.Array.data[2].clip
       value: 
@@ -14341,6 +14425,14 @@ PrefabInstance:
       propertyPath: hitSounds.Array.data[20].clip
       value: 
       objectReference: {fileID: 8300000, guid: 04a99f71aa16c484c917d5915a384ac3, type: 3}
+    - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
+      propertyPath: hitSounds2.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 24245be1b8917ad49ab72ea967202cb6, type: 3}
+    - target: {fileID: 11496382, guid: 393e1012855d44eb08111c95269092e0, type: 3}
+      propertyPath: hitSounds2.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d2bcdf5eefc0ca64f811afdccc080872, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 393e1012855d44eb08111c95269092e0, type: 3}
 --- !u!1 &1668996595

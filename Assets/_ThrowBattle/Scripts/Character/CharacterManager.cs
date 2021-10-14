@@ -22,7 +22,6 @@ namespace _ThrowBattle
             }
         }
 
-        [HideInInspector]
         public int player2Index = -1;
 
         public GameObject[] characters;

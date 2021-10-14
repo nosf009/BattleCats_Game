@@ -180,7 +180,7 @@ namespace _ThrowBattle
             {
                 if (player1Selected == true)
                 {
-                    CharacterManager.Instance.player2Index = currentCharacterIndex;
+                    CharacterManager.Instance.player2Index = 1 /*currentCharacterIndex*/;
                     playerSelectText.gameObject.SetActive(false);
                 }
                 else
