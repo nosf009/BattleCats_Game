@@ -481,6 +481,8 @@ namespace _ThrowBattle
                 character.TakeDamage(normalDamage, velocity * force, transform.position, isMakeDamage);
             if (isFinishShot)
             {
+                character.GetComponent<PlayerManager>().BreakAllJointAndTurnOffAnimator();
+
                 if (isThisOpponent)
                     BreakJointObject(collision.gameObject);
                 else
