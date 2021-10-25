@@ -22,7 +22,6 @@ namespace _ThrowBattle
         public int otherPlayerIndexTest;
 
         public ParticleSystem explosion;
-        [HideInInspector]
         public MatchResult resultMode;
 
         public GameObject lifeText;
@@ -34,14 +33,10 @@ namespace _ThrowBattle
         public GameObject ground;
         public GameObject rematchUI;
         public GameObject aimUI;
-        [HideInInspector]
         public GameObject weapon;
-        [HideInInspector]
         public GameObject currentCharacter;
-        [HideInInspector]
         public GameObject otherCharacter;
         public GameObject playerTurnNotification;
-        [HideInInspector]
         public GameObject midPlayers;
         public GameObject resultTextObj;
         public Text resultText;
@@ -59,13 +54,9 @@ namespace _ThrowBattle
         public Text powerText;
 
 
-        [HideInInspector]
         public string currentOnlinePlayerID = null;
-        [HideInInspector]
         public string otherPlayerID = null;
-        [HideInInspector]
         public string thisPlayerID = null;
-        [HideInInspector]
         public string lastPlayerID = null;
 
         public Transform leftPosition;
@@ -76,22 +67,16 @@ namespace _ThrowBattle
         Dictionary<int, GameObject> playerWeapons = new Dictionary<int, GameObject>(2);
 
         public float force = 1500;
-        [HideInInspector]
         public float angle;
-        [HideInInspector]
         public float currentForce;
         public float timeWaitResendMapData = 3;
         public float torqueMoveWeapon;
         public float timeCountDown;
 
-        [HideInInspector]
         public int thisPlayerIndex;
-        [HideInInspector]
         public int otherPlayerCharacterIndex;
         public int resendDataLimit = 3;
-        [HideInInspector]
         public int totalCoin = 0;
-        [HideInInspector]
         public int birdCountValue = 0;
         public int birdCount
         {
@@ -128,19 +113,12 @@ namespace _ThrowBattle
                 }
             }
         }
-        [HideInInspector]
         public bool isThisPlayerShoot;
-        [HideInInspector]
         public bool canShootValue = false;
-        [HideInInspector]
         public bool isPlay;
-        [HideInInspector]
         public bool isThisPlayerTurn;
-        [HideInInspector]
         public bool isShotFromThisPlayer;
-        [HideInInspector]
         public bool isDie;
-        [HideInInspector]
         public bool generateMapComplete;
 
         public AILevel enemyLevel;

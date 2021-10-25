@@ -29,30 +29,21 @@ namespace _ThrowBattle
         public int originalHealth;
         public GameObject weapon;
         public AILevel BotLevel;
-        [HideInInspector]
         public bool isChangeTurn;
-        [HideInInspector]
         public int playerIndex;
 
-        [HideInInspector]
         public bool isCheckShoot;
-        [HideInInspector]
         public bool isThisPlayerCharacter;
-        [HideInInspector]
         public bool hasReceivedShootData;
-        [HideInInspector]
         public List<byte> shootData = new List<byte>();
-        [HideInInspector]
         public Rigidbody2D rigidbody2;
 
-        float waitTime = 5f;
+        public float waitTime = 5f;
 
-        [HideInInspector]
         public float timeStart = 0;
         public int limitRequestData = 3;
         public int requestDataCount = 0;
 
-        [HideInInspector]
         public bool isScore;
 
         private bool isDead;

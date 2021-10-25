@@ -8,7 +8,7 @@ namespace _ThrowBattle
     {
         public GameObject bodyPart;
         public Vector2 originalLocalPosition;
-        Rigidbody2D rigid;
+        public Rigidbody2D rigid;
         public PhysicsBodyPart(GameObject bodyPart, Vector2 OriginalLocalPosition)
         {
             this.bodyPart = bodyPart;
@@ -18,7 +18,7 @@ namespace _ThrowBattle
 
         public void ResetTransform()
         {
-            if(rigid==null)
+            if (rigid == null)
                 rigid = bodyPart.GetComponent<Rigidbody2D>();
             if (rigid.bodyType != RigidbodyType2D.Static)
                 rigid.velocity = Vector2.zero;
@@ -85,8 +85,8 @@ namespace _ThrowBattle
 
         private bool hasTurnOffAnimator = false;
         private bool firstEnable = true;
-        public bool isEnemy=false;
-        GameObject apple=null;
+        public bool isEnemy = false;
+        GameObject apple = null;
         GameObject head;
 
         private void OnEnable()
@@ -101,7 +101,7 @@ namespace _ThrowBattle
 
         public void ResetAnimator()
         {
-            
+
             foreach (PhysicsBodyPart part in listPhysicsBodyParts)
                 part.ResetTransform();
             animator.Play("Idle", -1, 0);
@@ -152,11 +152,15 @@ namespace _ThrowBattle
                     part.bodyPart.GetComponent<Collider2D>().enabled = false;
         }
 
-        public void BreakAllJoint()
+        [ContextMenu("BreakAllJoints")]
+        public void BreakAllJointAndTurnOffAnimator()
         {
+            TurnOffAnimator();
             foreach (PhysicsBodyPart part in listPhysicsBodyParts)
             {
                 part.BreakJoint();
+                part.rigid.transform.SetParent(null);
+                part.rigid.AddForce(new Vector2(Random.Range(-2f, 2f), 10f), ForceMode2D.Impulse);
             }
         }
 
@@ -172,8 +176,8 @@ namespace _ThrowBattle
                     if (GrandChild.gameObject.name == "Head")
                     {
                         head = GrandChild.gameObject;
-                        if(apple!=null)
-                        apple.transform.SetParent(head.transform);
+                        if (apple != null)
+                            apple.transform.SetParent(head.transform);
                     }
                 }
             }
@@ -272,7 +276,7 @@ namespace _ThrowBattle
             transform.GetChild(0).GetComponent<Animator>().enabled = true;
             SetPositionOnPlane();
             ResetTransform();
-            if(GameManager.gameMode == GameMode.AppleShoot)
+            if (GameManager.gameMode == GameMode.AppleShoot)
             {
                 if (isEnemy)
                 {
@@ -286,7 +290,7 @@ namespace _ThrowBattle
         public void SetPositionOnPlane()
         {
             gameObject.SetActive(false);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down,LayerMask.GetMask("Plane"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, LayerMask.GetMask("Plane"));
             gameObject.SetActive(true);
             if (hit.collider != null)
             {
@@ -312,7 +316,7 @@ namespace _ThrowBattle
             RaycastHit2D applehit = Physics2D.Raycast(position, Vector2.down);
             apple.transform.position = applehit.point;
             if (head != null)
-                apple.transform.SetParent(head.transform);          
+                apple.transform.SetParent(head.transform);
         }
 
         void TurnOffAnimator()

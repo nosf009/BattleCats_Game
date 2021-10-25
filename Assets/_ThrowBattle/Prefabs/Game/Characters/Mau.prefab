@@ -1532,7 +1532,7 @@ MonoBehaviour:
   price: 0
   isFree: 1
   health: 20
-  originalHealth: 0
+  originalHealth: 1
   weapon: {fileID: 1004047224096352}
   BotLevel: 1
   isChangeTurn: 0
