@@ -20,6 +20,8 @@ namespace _ThrowBattle
 {
     public class Character : MonoBehaviour
     {
+        public GameObject onHitFxObj;
+
         public int characterSequenceNumber;
         public string characterName;
         public string characterDescription;

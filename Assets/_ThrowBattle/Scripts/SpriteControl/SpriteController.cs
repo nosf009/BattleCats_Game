@@ -71,7 +71,7 @@ namespace _ThrowBattle
 
                 int r = Mathf.RoundToInt(cc.bounds.size.x * playerTexture[spriteRender.gameObject].widthPixel / playerTexture[spriteRender.gameObject].widthWorld);
 
-                r = r / 3;
+                r = r / 5;
 
 
                 int x, y, px, nx, py, ny, d = 0;

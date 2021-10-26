@@ -9,6 +9,7 @@ namespace _ThrowBattle
 
         public static readonly string CURRENT_CHARACTER_KEY = "SGLIB_CURRENT_CHARACTER";
 
+
         public int CurrentCharacterIndex
         {
             get

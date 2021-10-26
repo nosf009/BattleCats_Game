@@ -135,6 +135,15 @@ namespace _ThrowBattle
         public PlayerController playerController;
         public PopUpController popUpController;
 
+        public void ConfettiExpl(Vector3 pos)
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                GameObject gConfetti = Instantiate(Singleton.Instance.confettiPS[0], pos + Random.insideUnitSphere * 30f, Quaternion.identity, null);
+                gConfetti.transform.localScale = new Vector3(4f, 4f, 4f);
+            }
+        }
+
         void OnEnable()
         {
             PlayerController.PlayerDied += PlayerController_PlayerDied;

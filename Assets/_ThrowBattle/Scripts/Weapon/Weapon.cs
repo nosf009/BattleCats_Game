@@ -474,6 +474,9 @@ namespace _ThrowBattle
 
             }
 
+            GameObject g = Instantiate(character.onHitFxObj, collision.gameObject.transform.position, Quaternion.identity, null);
+            g.transform.localScale = new Vector3(3f, 3f, 3f);
+
             bool isThisOpponent = (character.health <= 0);
             if (collision.gameObject.name == "Head")
                 character.TakeDamage(headDamage, velocity * force, transform.position, isMakeDamage);
@@ -484,9 +487,18 @@ namespace _ThrowBattle
                 character.GetComponent<PlayerManager>().BreakAllJointAndTurnOffAnimator();
 
                 if (isThisOpponent)
+                {
+
                     BreakJointObject(collision.gameObject);
+                }
                 else
+                {
+
                     GameManager.Instance.playerController.MissFinish();
+                }
+
+                GameManager.Instance.ConfettiExpl(collision.gameObject.transform.position);
+              
             }
 
             if (GameManager.gameMode == GameMode.AppleShoot)

@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4036354454993938}
+  - {fileID: 261135693204189429}
   m_Father: {fileID: 4625467419707870}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 29}
@@ -1526,9 +1527,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 388d7603184554ba3bfef3f7784ee10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onHitFxObj: {fileID: 124386, guid: a70a24d8868a592499df4cf5b6dbed7d, type: 3}
   characterSequenceNumber: 0
-  characterName: BattleCat
-  characterDescription: The beginner battlecat that fights like a noob
+  characterName: Ivy
+  characterDescription: The lovely cat!
   price: 0
   isFree: 1
   health: 20
@@ -1542,6 +1544,7 @@ MonoBehaviour:
   hasReceivedShootData: 0
   shootData: 
   rigidbody2: {fileID: 0}
+  waitTime: 5
   timeStart: 0
   limitRequestData: 3
   requestDataCount: 0
@@ -2849,7 +2852,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.42, y: 1.38}
+    oldSize: {x: 1.62, y: 1.38}
     newSize: {x: 2, y: 1.88}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4490,3 +4493,66 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!1001 &261135693204100581
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4778533232026262}
+    m_Modifications:
+    - target: {fileID: 106092, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_Name
+      value: HeartTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faed733be55ec8345802e8121b1b1952, type: 3}
+--- !u!4 &261135693204189429 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 484624, guid: faed733be55ec8345802e8121b1b1952,
+    type: 3}
+  m_PrefabInstance: {fileID: 261135693204100581}
+  m_PrefabAsset: {fileID: 0}

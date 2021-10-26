@@ -69,25 +69,22 @@ namespace _ThrowBattle
         public bool turnOn;
         public bool turnOff;
         //bool isAimAnimator;
-        [HideInInspector]
         public Transform body;
-        [HideInInspector]
         public float characterHeight;
-        [HideInInspector]
         public float characterWidth;
 
-        private List<GameObject> bodyParts = new List<GameObject>();
+        public List<GameObject> bodyParts = new List<GameObject>();
 
         public HingeJoint2D firstHingeJoin;
         public HingeJoint2D secondHingeJoin;
 
-        private Animator animator;
+        public Animator animator;
 
-        private bool hasTurnOffAnimator = false;
-        private bool firstEnable = true;
+        public bool hasTurnOffAnimator = false;
+        public bool firstEnable = true;
         public bool isEnemy = false;
-        GameObject apple = null;
-        GameObject head;
+        public GameObject apple = null;
+        public GameObject head;
 
         private void OnEnable()
         {
@@ -160,7 +157,7 @@ namespace _ThrowBattle
             {
                 part.BreakJoint();
                 part.rigid.transform.SetParent(null);
-                part.rigid.AddForce(new Vector2(Random.Range(-2f, 2f), 10f), ForceMode2D.Impulse);
+                part.rigid.AddForce(new Vector2(Random.Range(-7f, 7f), 12f), ForceMode2D.Impulse);
             }
         }
 
@@ -357,10 +354,32 @@ namespace _ThrowBattle
             characterWidth = bounds.max.x;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             //if (isAimAnimator)
             //    UpdateFootJoinAnchor();
+
+            /*
+            foreach (Transform transform in transform)
+            {
+                if(transform != null)
+                {
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0f);
+                }
+            }*/
+
+        }
+
+        public void FixedUpdate()
+        {
+            /*
+            foreach (Transform transform in transform)
+            {
+                if (transform != null)
+                {
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 0f);
+                }
+            }*/
         }
     }
 }
