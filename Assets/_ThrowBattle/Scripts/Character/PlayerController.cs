@@ -215,7 +215,7 @@ namespace _ThrowBattle
         {
             if (MissFinishShot != null)
                 MissFinishShot();
-            currentCharacter.GetComponent<PlayerManager>().TurnOnPhysics();
+            //currentCharacter.GetComponent<PlayerManager>().TurnOnPhysics();
             Invoke("Die", 0.5f);
         }
 

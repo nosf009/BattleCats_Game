@@ -1327,9 +1327,15 @@ MonoBehaviour:
   body: {fileID: 0}
   characterHeight: 0
   characterWidth: 0
+  bodyParts: []
   firstHingeJoin: {fileID: 0}
   secondHingeJoin: {fileID: 0}
+  animator: {fileID: 0}
+  hasTurnOffAnimator: 0
+  firstEnable: 1
   isEnemy: 0
+  apple: {fileID: 0}
+  head: {fileID: 0}
 --- !u!114 &114668661673004266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1344,8 +1350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onHitFxObj: {fileID: 120778, guid: 632339e29e2ddd64aab6f9dd68facc82, type: 3}
   characterSequenceNumber: 0
-  characterName: BattleCat
-  characterDescription: The beginner battlecat that fights like a noob
+  characterName: Mau
+  characterDescription: The grey one, newbie.
   price: 0
   isFree: 1
   health: 20

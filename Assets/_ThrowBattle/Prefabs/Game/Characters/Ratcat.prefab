@@ -850,6 +850,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4668253646835034}
   - component: {fileID: 58273703121911144}
+  - component: {fileID: 6142958169420454087}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -887,6 +888,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.39
+--- !u!50 &6142958169420454087
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296948405514844}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1302789442705138
 GameObject:
   m_ObjectHideFlags: 0
@@ -4602,6 +4624,14 @@ PrefabInstance:
     - target: {fileID: 447058, guid: f6d2b583bc3983c4b9b6dcac3122a734, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19920560, guid: f6d2b583bc3983c4b9b6dcac3122a734, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19943718, guid: f6d2b583bc3983c4b9b6dcac3122a734, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6d2b583bc3983c4b9b6dcac3122a734, type: 3}

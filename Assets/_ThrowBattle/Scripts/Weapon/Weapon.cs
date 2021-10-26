@@ -477,19 +477,22 @@ namespace _ThrowBattle
             GameObject g = Instantiate(character.onHitFxObj, collision.gameObject.transform.position, Quaternion.identity, null);
             g.transform.localScale = new Vector3(3f, 3f, 3f);
 
+            FindObjectOfType<CameraController>().ShakeCamera();
+
             bool isThisOpponent = (character.health <= 0);
             if (collision.gameObject.name == "Head")
-                character.TakeDamage(headDamage, velocity * force, transform.position, isMakeDamage);
+                character.TakeDamage(headDamage, velocity * force * 1.85f, transform.position, isMakeDamage);
             else
-                character.TakeDamage(normalDamage, velocity * force, transform.position, isMakeDamage);
+                character.TakeDamage(normalDamage, velocity * force * 1.85f, transform.position, isMakeDamage);
             if (isFinishShot)
             {
                 character.GetComponent<PlayerManager>().BreakAllJointAndTurnOffAnimator();
 
+                BreakJointObject(collision.gameObject);
+
                 if (isThisOpponent)
                 {
-
-                    BreakJointObject(collision.gameObject);
+                    //BreakJointObject(collision.gameObject);
                 }
                 else
                 {
